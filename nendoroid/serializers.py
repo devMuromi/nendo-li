@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from nendoroid.models import Manufacturer, Nendoroid
+from nendoroid.models import Manufacturer, Nendoroid, Series
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,3 +25,12 @@ class NendoroidSerializer(serializers.ModelSerializer):
         model = Nendoroid
         fields = "__all__"
         
+class SeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series
+        fields = "__all__"
+        
+class ManufacturerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Manufacturer
+        fields = "__all__"

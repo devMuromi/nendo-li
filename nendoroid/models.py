@@ -23,6 +23,7 @@ class Manufacturer(models.Model):
         elif self.name_en:
             return self.name_en
         else: return self.name_ja
+        
 class Sculptor(models.Model):
     name_ko = models.CharField(max_length=64, blank=True)
     name_en = models.CharField(max_length=64, blank=True)
