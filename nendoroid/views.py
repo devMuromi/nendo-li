@@ -18,7 +18,7 @@ def nendoroid_list(request, format=None):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = NendoroidSerializer(data=request.data)
+        serializer = NendoroidSerializer(data=request.data)            
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
@@ -39,6 +39,7 @@ def nendoroid_detail(request, pk, format=None):
         serializer = NendoroidSerializer(nendoroid, data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 

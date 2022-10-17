@@ -1,3 +1,6 @@
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nendo_li.settings")
+
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
@@ -21,6 +24,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 #         fields = ['number', 'name_ko', 'name_en', 'name_ja', 'series', 'manufacturer', 'sculptor', 'gsc_number', 'release_date', 'gender']
 
 class NendoroidSerializer(serializers.ModelSerializer):
+    # release_date = serializers.JSONField(allow_null=True)
     class Meta:
         model = Nendoroid
         fields = "__all__"

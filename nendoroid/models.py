@@ -1,9 +1,9 @@
 from django.db import models
 
 class Series(models.Model):
-    name_ko = models.CharField(max_length=64, blank=True)
-    name_en = models.CharField(max_length=64, blank=True)
-    name_ja = models.CharField(max_length=64, blank=True)
+    name_ko = models.CharField(max_length=128, blank=True, null=True, unique=True)
+    name_en = models.CharField(max_length=128, blank=True, null=True, unique=True)
+    name_ja = models.CharField(max_length=128, blank=True, null=True, unique=True)
 
     def __str__(self):
         if self.name_ko:
@@ -13,9 +13,9 @@ class Series(models.Model):
         else: return self.name_ja
 
 class Manufacturer(models.Model):
-    name_ko = models.CharField(max_length=64, blank=True)
-    name_en = models.CharField(max_length=64, blank=True)
-    name_ja = models.CharField(max_length=64, blank=True)
+    name_ko = models.CharField(max_length=128, blank=True, null=True, unique=True)
+    name_en = models.CharField(max_length=128, blank=True, null=True, unique=True)
+    name_ja = models.CharField(max_length=128, blank=True, null=True, unique=True)
 
     def __str__(self):
         if self.name_ko:
@@ -25,9 +25,9 @@ class Manufacturer(models.Model):
         else: return self.name_ja
         
 class Sculptor(models.Model):
-    name_ko = models.CharField(max_length=64, blank=True)
-    name_en = models.CharField(max_length=64, blank=True)
-    name_ja = models.CharField(max_length=64, blank=True)
+    name_en = models.CharField(max_length=128, blank=True, null=True, unique=True)
+    name_ja = models.CharField(max_length=128, blank=True, null=True, unique=True)
+    name_ko = models.CharField(max_length=128, blank=True, null=True, unique=True)
 
     def __str__(self):
         if self.name_ko:
@@ -38,15 +38,15 @@ class Sculptor(models.Model):
 
 class Nendoroid(models.Model):
     number = models.CharField(max_length=10, unique=True)
-    name_ko = models.CharField(max_length=64, blank=True)
-    name_en = models.CharField(max_length=64, blank=True)
-    name_ja = models.CharField(max_length=64, blank=True)
-    series = models.ForeignKey(Series, on_delete=models.CASCADE, blank=True)
-    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True)
+    name_ko = models.CharField(max_length=256, blank=True)
+    name_en = models.CharField(max_length=256, blank=True)
+    name_ja = models.CharField(max_length=256, blank=True)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, blank=True, null=True)
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
     sculptor = models.ManyToManyField(Sculptor, related_name='nendoroid', blank=True)
-    gsc_number = models.IntegerField(blank=True)
-    release_date = models.JSONField(blank=True)
+    release_date = models.JSONField(blank=True, null=True)
     # image = models.ImageField(null=True)
+    image_link = models.CharField(max_length=256, blank=True)
     GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),
