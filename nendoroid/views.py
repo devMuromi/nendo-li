@@ -7,13 +7,13 @@ from nendoroid.serializers import NendoroidSerializer ,SeriesSerializer, Manufac
 from rest_framework.decorators import api_view
 from rest_framework import generics
 
-class NendoroidList(generics.ListCreateAPIView)
+class NendoroidList(generics.ListCreateAPIView):
     queryset = Nendoroid.objects.all()
     serializer_class = NendoroidSerializer
 
 class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Nendoroid.objects.all()
-    serializer_class = NendoroidSerializer
+    serializer_class = NendoroidSerializer  
 
 # @api_view(['GET', 'POST'])
 # def nendoroid_list(request, format=None):

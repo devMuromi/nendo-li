@@ -1,4 +1,5 @@
 from django.db import models
+import re
 
 class Series(models.Model):
     name_ko = models.CharField(max_length=128, blank=True, null=True, unique=True)
@@ -36,6 +37,13 @@ class Sculptor(models.Model):
             return self.name_en
         else: return self.name_ja
 
+# class NendoroidNumbering(models.Model):
+#     # For numbering and available for future group feature
+#     name = models.CharField)max_length=128, unique=True, blank=True, null=True)
+
+#     def __str__(self):
+#         return self.name +'번대'
+
 class Nendoroid(models.Model):
     number = models.CharField(max_length=10, unique=True)
     name_ko = models.CharField(max_length=256, blank=True)
@@ -55,5 +63,19 @@ class Nendoroid(models.Model):
     # price = models.IntegerField(blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True)
 
+    def numbering_init(self):
+        value = re.sub(r'[^0-9]', '', self.number)
+        if len(value) >= 2:
+            value = value[:-2] + '00'
+        return value
+
+    def save(self, *args, **kwargs):
+        self.numbering = self.numbering_init()
+        super().save(*args, **kwargs)
+        
+    numbering = models.CharField(max_length=5, blank=True)
+
+
     def __str__(self):
         return self.number + ' ' + self.name_ko
+
