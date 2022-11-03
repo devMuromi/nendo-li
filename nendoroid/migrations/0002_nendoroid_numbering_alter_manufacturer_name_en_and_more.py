@@ -6,74 +6,74 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('nendoroid', '0001_initial'),
+        ("nendoroid", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='nendoroid',
-            name='numbering',
+            model_name="nendoroid",
+            name="numbering",
             field=models.CharField(default=1, max_length=5),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='manufacturer',
-            name='name_en',
+            model_name="manufacturer",
+            name="name_en",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='manufacturer',
-            name='name_ja',
+            model_name="manufacturer",
+            name="name_ja",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='manufacturer',
-            name='name_ko',
+            model_name="manufacturer",
+            name="name_ko",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='nendoroid',
-            name='name_en',
+            model_name="nendoroid",
+            name="name_en",
             field=models.CharField(blank=True, max_length=256),
         ),
         migrations.AlterField(
-            model_name='nendoroid',
-            name='name_ja',
+            model_name="nendoroid",
+            name="name_ja",
             field=models.CharField(blank=True, max_length=256),
         ),
         migrations.AlterField(
-            model_name='nendoroid',
-            name='name_ko',
+            model_name="nendoroid",
+            name="name_ko",
             field=models.CharField(blank=True, max_length=256),
         ),
         migrations.AlterField(
-            model_name='sculptor',
-            name='name_en',
+            model_name="sculptor",
+            name="name_en",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='sculptor',
-            name='name_ja',
+            model_name="sculptor",
+            name="name_ja",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='sculptor',
-            name='name_ko',
+            model_name="sculptor",
+            name="name_ko",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='series',
-            name='name_en',
+            model_name="series",
+            name="name_en",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='series',
-            name='name_ja',
+            model_name="series",
+            name="name_ja",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='series',
-            name='name_ko',
+            model_name="series",
+            name="name_ko",
             field=models.CharField(blank=True, max_length=128, null=True, unique=True),
         ),
     ]
