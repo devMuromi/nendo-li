@@ -8,9 +8,7 @@ SECRET_KEY = "django-insecure-u*r@0bxtj%2j6mz^i-am=y^u7ukr-wv6=uzwq%)+4*y4qwod-c
 
 DEBUG = True
 
-
 ALLOWED_HOSTS = ["*"]
-
 
 CORS_ALLOWED_ORIGINS = [
     "https://example.com",
@@ -18,7 +16,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:9000",
 ]
-
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -34,9 +31,12 @@ CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
     "nendoroid",
+    "user",
+    # Library
     "rest_framework",
     "corsheaders",
-    "rest_framework_jwt",
+    "rest_framework_simplejwt",
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -48,21 +48,21 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAdminUser",
         "rest_framework.permissions.AllowAny",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
 JWT_AUTH = {  # 추가
     "JWT_SECRET_KEY": SECRET_KEY,
     "JWT_ALGORITHM": "HS256",
-    "JWT_VERIFY_EXPIRATION": True,  # 토큰검증
-    "JWT_ALLOW_REFRESH": True,  # 유효기간이 지나면 새로운 토큰반환의 refresh
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(minutes=30),  # Access Token의 만료 시간
-    "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=3),  # Refresh Token의 만료 시간
-    "JWT_RESPONSE_PAYLOAD_HANDLER": "api.custom_responses.my_jwt_response_handler",
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_ALLOW_REFRESH": True,
+    "JWT_EXPIRATION_DELTA": datetime.timedelta(days=1),
+    "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=28),
 }
 
 MIDDLEWARE = [
@@ -149,3 +149,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "user.User"
