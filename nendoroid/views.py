@@ -1,12 +1,13 @@
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
-from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
-
+# from django.views.decorators.csrf import csrf_exempt
+# from django.http import HttpResponse, JsonResponse
+# from rest_framework.response import Response
+# from rest_framework.parsers import JSONParser
+# from rest_framework.decorators import api_view
 
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
+from rest_framework import permissions
+from nendo_li import permissions as customPermissions
 
 
 from nendoroid.models import Nendoroid, Series, Manufacturer
@@ -20,6 +21,7 @@ from nendoroid.serializers import (
 class NendoroidList(generics.ListCreateAPIView):
     queryset = Nendoroid.objects.all()
     serializer_class = NendoroidSerializer
+    permission_classes = [customPermissions.ReadOnly]
 
     # numbering query string 인식, 기본값: 000
     def get_queryset(self):
@@ -39,6 +41,7 @@ class NendoroidList(generics.ListCreateAPIView):
 class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Nendoroid.objects.all()
     serializer_class = NendoroidSerializer
+    permission_classes = [customPermissions.ReadOnly]
 
     lookup_field = "number"
 
@@ -85,19 +88,23 @@ class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
 class SeriesList(generics.ListCreateAPIView):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    permission_classes = [customPermissions.ReadOnly]
 
 
 class SeriesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    permission_classes = [customPermissions.ReadOnly]
 
 
 # Manufacturer
 class ManufacturerList(generics.ListCreateAPIView):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
+    permission_classes = [customPermissions.ReadOnly]
 
 
 class ManufacturerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
+    permission_classes = [customPermissions.ReadOnly]
