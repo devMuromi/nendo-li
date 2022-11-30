@@ -1,20 +1,19 @@
 import os
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nendo_li.settings")
 import django
-
-django.setup()
-
 import requests
 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nendo_li.settings")
+django.setup()
 
 from nendoroid.serializers import NendoroidSerializer
-from nendoroid.models import Nendoroid, Series
+from nendoroid.serializers import SeriesSerializer
 
+from nendoroid.models import Nendoroid
+from nendoroid.models import Series
 
 DB_URL = "https://raw.githubusercontent.com/KhoraLee/NendoroidDB/main/"
 API_URL = "https://api.github.com/repos/KhoraLee/NendoroidDB/contents/"
-TOKEN = "token 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"
+TOKEN = ""
 
 
 def get(url):
@@ -76,6 +75,37 @@ def get_nendoroid():
         validated_nendoroid_data = dict()
         print(initial_nendoroid_data["num"], "넨도로이드 처리중")
         try:
+            validated_series_data = dict()
+            # Data validation
+            if "series" in initial_nendoroid_data:
+                validated_series_data["name_ko"] = (
+                    initial_nendoroid_data["series"]["ko"]
+                    if "ko" in initial_nendoroid_data["series"]
+                    else ""
+                )
+                validated_series_data["name_en"] = (
+                    initial_nendoroid_data["series"]["en"]
+                    if "en" in initial_nendoroid_data["series"]
+                    else ""
+                )
+                validated_series_data["name_ja"] = (
+                    initial_nendoroid_data["series"]["ko"]
+                    if "ko" in initial_nendoroid_data["series"]
+                    else ""
+                )
+
+            # Add series data
+            serializer = SeriesSerializer(data=validated_series_data)
+            if serializer.is_valid():
+                serializer.save()
+                print(validated_series_data, "series added")
+            else:
+                print(serializer.errors)
+        except Exception as e:
+            print(e)
+
+        try:
+            # Data validation
             validated_nendoroid_data["number"] = initial_nendoroid_data["num"]
             if "name" in initial_nendoroid_data:
                 validated_nendoroid_data["name_ko"] = (
@@ -115,8 +145,13 @@ def get_nendoroid():
                     validated_nendoroid_data["gender"] = "O"
             else:
                 validated_nendoroid_data["gender"] = ""
-            # 시리즈 추가하기
+            if "series" in initial_nendoroid_data:
+                if "ko" in initial_nendoroid_data["series"]:
+                    validated_nendoroid_data["series"] = Series.objects.get(
+                        name_ko=initial_nendoroid_data["series"]["ko"]
+                    ).pk
 
+            # Add Nendoroid data
             serializer = NendoroidSerializer(data=validated_nendoroid_data)
             if serializer.is_valid():
                 serializer.save()
@@ -128,23 +163,21 @@ def get_nendoroid():
             print(e)
 
 
-def get_series():
-    # only gets name_ko
-    series_path_list = get_series_path_list()
-
-    for series_path in series_path_list:
-        URL = DB_URL + series_path
-        series_data = get(URL)
-        print(series_data["num"], "시리즈 처리중")
-        try:
-            series = Series(name_ko=series_data["setName"])
-            series.save()
-        except Exception as e:
-            print(e)
-
-    # series_path = series_path_list[0]
-    # URL = DB_URL + series_path
-    # series_data = get(URL)
+# name_ko만 존재하고, 이후 추가될 넨도 대응위해 일단 사용 안하는걸로
+# def get_series():
+#     series_path_list = get_series_path_list()
+#     for series_path in series_path_list:
+#         URL = DB_URL + series_path
+#         series_data = get(URL)
+#         print(series_data["num"], "시리즈 처리중")
+#         try:
+#             series = Series(name_ko=series_data["setName"])
+#             series.save()
+#         except Exception as e:
+#             print(e)
+#     series_path = series_path_list[0]
+#     URL = DB_URL + series_path
+#     series_data = get(URL)
 
 
 get_nendoroid()
