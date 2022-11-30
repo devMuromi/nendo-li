@@ -14,7 +14,7 @@ from nendoroid.models import Nendoroid, Series
 
 DB_URL = "https://raw.githubusercontent.com/KhoraLee/NendoroidDB/main/"
 API_URL = "https://api.github.com/repos/KhoraLee/NendoroidDB/contents/"
-TOKEN = "token "
+TOKEN = "token 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"
 
 
 def get(url):
