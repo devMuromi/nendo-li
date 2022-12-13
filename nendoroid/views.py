@@ -46,20 +46,6 @@ class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "number"
 
 
-# @api_view(['GET', 'POST'])
-# def nendoroid_list(request, format=None):
-#     if request.method == 'GET':
-#         nendoroids = Nendoroid.objects.all()
-#         serializer = NendoroidSerializer(nendoroids, many=True)
-#         return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = NendoroidSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=201)
-#         return Response(serializer.errors, status=400)
-
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def nendoroid_detail(request, pk, format=None):
 #     try:
@@ -85,6 +71,8 @@ class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Series
+
+
 class SeriesList(generics.ListCreateAPIView):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer

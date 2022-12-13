@@ -7,11 +7,6 @@ from rest_framework import serializers
 
 from nendoroid.models import Manufacturer, Nendoroid, Series
 
-# class NendoroidSerializer(serializers.Serializer):
-#     class Meta:
-#         model = Nendoroid
-#         fields = ['number', 'name_ko', 'name_en', 'name_ja', 'series', 'manufacturer', 'sculptor', 'gsc_number', 'release_date', 'gender']
-
 
 class NendoroidSerializer(serializers.ModelSerializer):
     # release_date = serializers.JSONField(allow_null=True)
@@ -21,6 +16,8 @@ class NendoroidSerializer(serializers.ModelSerializer):
 
 
 class SeriesSerializer(serializers.ModelSerializer):
+    nendoroid_set = NendoroidSerializer(many=True, read_only=True)
+
     class Meta:
         model = Series
         fields = "__all__"
