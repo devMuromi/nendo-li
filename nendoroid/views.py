@@ -1,15 +1,8 @@
-# from django.views.decorators.csrf import csrf_exempt
-# from django.http import HttpResponse, JsonResponse
-# from rest_framework.response import Response
-# from rest_framework.parsers import JSONParser
-# from rest_framework.decorators import api_view
-
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination
 from nendo_li import permissions as customPermissions
-
-
 from nendoroid.models import Nendoroid, Series, Manufacturer
 from nendoroid.serializers import (
     NendoroidSerializer,
@@ -17,7 +10,7 @@ from nendoroid.serializers import (
     ManufacturerSerializer,
 )
 
-
+# Nendoroid
 class NendoroidList(generics.ListCreateAPIView):
     queryset = Nendoroid.objects.all()
     serializer_class = NendoroidSerializer
@@ -46,36 +39,17 @@ class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "number"
 
 
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def nendoroid_detail(request, pk, format=None):
-#     try:
-#         nendoroid = Nendoroid.objects.get(pk=pk)
-#     except Nendoroid.DoesNotExist:
-#         return Response(status=404)
-
-#     if request.method == 'GET':
-#         serializer = NendoroidSerializer(nendoroid)
-#         return Response(serializer.data)
-
-#     elif request.method == 'PUT':
-#         serializer = NendoroidSerializer(nendoroid, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=400)
-
-#     elif request.method == 'DELETE':
-#         nendoroid.delete()
-#         return Response(status=204)
-
-
 # Series
+class SeriesPagination(PageNumberPagination):
+    page_size = 50
+    # page_size_query_param = "page_size"
+    # max_page_size = 100
 
 
 class SeriesList(generics.ListCreateAPIView):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    pagination_class = SeriesPagination
     permission_classes = [customPermissions.ReadOnly]
 
 
