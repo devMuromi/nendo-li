@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework import permissions
-from rest_framework.pagination import PageNumberPagination
 from nendo_li import permissions as customPermissions
+from rest_framework.pagination import PageNumberPagination
 from nendoroid.models import Nendoroid, Series, Manufacturer
 from nendoroid.serializers import (
     NendoroidSerializer,
@@ -32,11 +32,10 @@ class NendoroidList(generics.ListCreateAPIView):
 
 
 class NendoroidDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = "number"
     queryset = Nendoroid.objects.all()
     serializer_class = NendoroidSerializer
     permission_classes = [customPermissions.ReadOnly]
-
-    lookup_field = "number"
 
 
 # Series

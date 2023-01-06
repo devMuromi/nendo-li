@@ -5,11 +5,23 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nendo_li.settings")
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from nendoroid.models import Manufacturer, Nendoroid, Series
+from nendoroid.models import (
+    Manufacturer,
+    Nendoroid,
+    Series,
+    NendoroidPhoto,
+)
+
+
+class NendoroidPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NendoroidPhoto
+        fields = "__all__"
 
 
 class NendoroidSerializer(serializers.ModelSerializer):
-    # release_date = serializers.JSONField(allow_null=True)
+    nendoroidphoto_set = NendoroidPhotoSerializer(many=True, read_only=True)
+
     class Meta:
         model = Nendoroid
         fields = "__all__"

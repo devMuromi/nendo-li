@@ -21,16 +21,17 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-from user.views import UserList, UserDetail
+from user.views import UserList, UserDetail, MyPage
 
 urlpatterns = [
-    path("nendoroid/", include("nendoroid.urls")),
+    path("api/", include("nendoroid.urls")),
     path("admin/", admin.site.urls),
-    path("auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("auth/token/obtain/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("auth/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("users/", UserList.as_view()),
-    path("users/<int:pk>/", UserDetail.as_view()),
+    # path("users/", UserList.as_view()),
+    # path("users/<str:username>/", UserDetail.as_view()),
+    path("user/", MyPage.as_view()),
 ]
 
 # from django.urls import include, path

@@ -80,6 +80,6 @@ class Nendoroid(models.Model):
 
 
 class NendoroidPhoto(models.Model):
-    photo = models.ImageField(upload_to="nendoroid_photo")
+    photo = models.URLField(max_length=256, blank=True)
     nendoroid = models.ForeignKey(Nendoroid, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

@@ -1,21 +1,21 @@
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nendo_li.settings")
-
-# from django.contrib.auth.models import User, Group
 from user.models import User
 from rest_framework import serializers
+from nendoroid.serializers import NendoroidSerializer, NendoroidPhotoSerializer
 
-from nendoroid.models import Manufacturer, Nendoroid, Series
 
+class UserSerializer(serializers.ModelSerializer):
+    nendoroidphoto_set = NendoroidPhotoSerializer(many=True, read_only=True)
+    # nendoroid_owned = NendoroidSerializer(many=True, read_only=True)
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ["url", "username", "email"]
-
-
-# class GroupSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Group
-#         fields = ["url", "name"]
+        fields = [
+            "username",
+            "nendoroidphoto_set",
+            "is_superuser",
+            "is_staff",
+            "email",
+        ]
