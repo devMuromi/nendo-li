@@ -1,0 +1,47 @@
+version: "3.8"
+
+volumes:
+  postgres_db: {}
+
+services:
+  django:
+    container_name: django
+    build: .
+    restart: always
+    command: gunicorn [EXAMPLE].wsgi --bind 0.0.0.0:8000
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_DEBUG=False
+      - DJANGO_SECRET_KEY=
+      - DJANGO_ALLOWED_HOST=localhost 127.0.0.1
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=nendo-li-db
+      - SQL_USER=[DB USERNAME]
+      - SQL_PASSWORD=[DB PASSWORD]
+      - SQL_HOST=db
+      - SQL_PORT=5432
+  db:
+    container_name: db
+    image: postgres
+    environment: 
+      - POSTGRES_DB=nendo-li-db
+      - POSTGRES_USER=[DB USERNAME]
+      - POSTGRES_PASSWORD=[DB PASSWORD]
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./static:/staticfiles
+    depends_on:
+      - django
