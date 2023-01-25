@@ -1,10 +1,9 @@
 from rest_framework import generics
 from user.models import User
-from nendoroid.models import NendoroidPhoto
 from user.serializers import UserSerializer
-from nendoroid.serializers import NendoroidPhotoSerializer
 from rest_framework import permissions
-from nendo_li import permissions as customPermissions
+
+# from nendo_li import permissions as customPermissions
 
 
 class UserList(generics.ListAPIView):
@@ -26,9 +25,3 @@ class MyPage(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
-
-
-# class UserNendoroidPhoto(generics.ListAPIView):
-#     queryset = NendoroidPhoto.objects.all()
-#     serializer_class = NendoroidPhotoSerializer
-#     permission_classes = [permissions.IsAuthenticated]

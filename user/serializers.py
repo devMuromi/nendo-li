@@ -19,3 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff",
             "email",
         ]
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "email", "password"]
